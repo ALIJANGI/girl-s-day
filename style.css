@@ -835,3 +835,254 @@ body::before {
 .heart-8 img  { left: -20% !important; top: 0% !important; }
 .heart-12 img { left: -25% !important; top: -20% !important; }
 .heart-15 img { left: -36% !important; top: 11% !important; }
+
+
+/* =====================================
+   FIX 1: HEARTS ON MOBILE
+===================================== */
+
+@media (max-width: 600px) {
+
+    /* قلب‌های تزئینی کوچک‌تر و خلوت‌تر */
+    .heart:not(.heart-photo) {
+        width: 30px !important;
+        height: 30px !important;
+    }
+
+    .heart:not(.heart-photo) span {
+        font-size: 17px;
+    }
+
+    /* همه قلب‌های عکس‌دار قابل مشاهده بمانند */
+    .heart-photo {
+        width: 62px !important;
+        height: 62px !important;
+        opacity: 1;
+        filter: drop-shadow(0 4px 6px rgba(93, 36, 48, .22));
+    }
+
+    /* عکس‌ها کمی بزرگ‌تر از قاب قلب باشند */
+    .heart-photo img {
+        width: 125% !important;
+        height: 125% !important;
+        max-width: none !important;
+        max-height: none !important;
+        object-fit: cover;
+    }
+
+    /* جای قلب‌های عکس‌دار در اطراف صفحه */
+    .heart-2 {
+        top: 3% !important;
+        left: 3% !important;
+    }
+
+    .heart-5 {
+        bottom: 3% !important;
+        left: 3% !important;
+    }
+
+    .heart-8 {
+        top: 15% !important;
+        left: 3% !important;
+    }
+
+    .heart-12 {
+        top: 3% !important;
+        right: 3% !important;
+    }
+
+    .heart-15 {
+        bottom: 3% !important;
+        right: 3% !important;
+    }
+
+    /* فاصله قلب‌های تزئینی از یکدیگر */
+    .heart-1  { top: 17% !important; left: 18% !important; }
+    .heart-3  { top: 12% !important; right: 25% !important; }
+    .heart-4  { top: 32% !important; left: 2% !important; }
+    .heart-6  { top: 35% !important; right: 2% !important; }
+    .heart-7  { top: 23% !important; right: 3% !important; }
+    .heart-9  { top: 25% !important; right: 25% !important; }
+    .heart-10 { bottom: 25% !important; left: 3% !important; }
+    .heart-11 { top: 42% !important; left: 3% !important; }
+    .heart-13 { bottom: 15% !important; right: 25% !important; }
+    .heart-14 { top: 45% !important; right: 3% !important; }
+    .heart-16 { top: 53% !important; right: 3% !important; }
+    .heart-17 { bottom: 18% !important; left: 3% !important; }
+    .heart-18 { bottom: 30% !important; right: 3% !important; }
+
+    /* حرکت ملایم‌تر تا قلب‌ها کمتر روی هم بیفتند */
+    .heart {
+        animation-name: mobileFloatingHeart;
+        animation-duration: 28s;
+    }
+
+    @keyframes mobileFloatingHeart {
+        0%, 100% {
+            transform: translate(0, 0);
+        }
+
+        50% {
+            transform: translate(0, -7px);
+        }
+    }
+}
+
+
+/* =====================================
+   FIX 2: PAPER FRAME
+===================================== */
+
+/* حاشیه داخلی کاغذ تا نزدیکی لبه پایین ادامه داشته باشد */
+.paper-frame {
+    inset: 12px 12px 7px;
+}
+
+
+/* =====================================
+   FIX 3: LETTER TEXT AND SCROLLING
+===================================== */
+
+/* جلوگیری از بیرون‌زدن افقی متن */
+.note-paper,
+.note-content,
+#letterText {
+    min-width: 0;
+    max-width: 100%;
+}
+
+#letterText {
+    overflow-wrap: anywhere;
+    word-break: normal;
+}
+
+#letterText p {
+    max-width: 100%;
+}
+
+/* بعد از جداشدن کاغذ از پاکت، متن قابل اسکرول باشد */
+.note-paper.detached.show {
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 45px !important;
+}
+
+/* فاصله متن‌ها در صفحه‌های کوچک */
+@media (max-width: 600px) {
+    .note-paper.detached.show {
+        padding: 35px 24px 45px !important;
+    }
+
+    #letterText {
+        font-size: 13px;
+        line-height: 1.85;
+    }
+
+    #letterText p {
+        margin-bottom: 9px;
+    }
+
+    #letterText .letter-special {
+        margin-top: 12px;
+    }
+
+    #letterText .letter-ending {
+        margin-top: 8px;
+    }
+
+    .paper-footer {
+        margin-top: 12px;
+    }
+}
+
+
+/* اصلاح حاشیه داخلی کاغذ */
+.paper-frame {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    bottom: 12px;
+    left: 12px;
+    box-sizing: border-box;
+    pointer-events: none;
+}
+
+/* حاشیه تزئینی دوم */
+.paper-frame::before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    bottom: 5px;
+    left: 5px;
+    box-sizing: border-box;
+}
+
+
+/* =========================================
+   FINAL FIX: FRAME GROWS WITH LONG TEXT
+========================================= */
+
+/* کاغذ جداشده با توجه به محتوای طولانی اسکرول می‌شود */
+.note-paper.detached.show {
+    height: auto !important;
+    min-height: 100%;
+    max-height: 85vh;
+    max-height: 85dvh;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    box-sizing: border-box;
+    padding-bottom: 55px !important;
+}
+
+/* کادر دوخطی داخلی در جای خودش باقی بماند */
+.paper-frame {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    bottom: 12px;
+    left: 12px;
+    box-sizing: border-box;
+    pointer-events: none;
+}
+
+/* خط دوم کادر */
+.paper-frame::before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    bottom: 5px;
+    left: 5px;
+    box-sizing: border-box;
+}
+
+/* فضای کافی برای برگ‌های تزئینی انتهای کاغذ */
+.floral-bl,
+.floral-br {
+    bottom: 15px;
+}
+
+/* فضای کافی برای آخرین خط متن و امضا */
+.paper-footer {
+    margin-bottom: 15px;
+}
+
+/* تنظیمات موبایل */
+@media (max-width: 600px) {
+    .note-paper.detached.show {
+        max-height: 85dvh;
+        padding-bottom: 55px !important;
+    }
+
+    .floral-bl,
+    .floral-br {
+        bottom: 12px;
+    }
+
+    .paper-footer {
+        margin-bottom: 12px;
+    }
+}
